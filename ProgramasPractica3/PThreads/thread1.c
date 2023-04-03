@@ -8,6 +8,8 @@ void *PrintHello(void *threadid)
 {
    long tid;
    tid = (long)threadid;
+   // Para dormir a los hilos y poder mediante terminal visualizarlos
+   sleep(15);
    printf("Hello World! It's me, thread #%ld!\n", tid);
    pthread_exit(NULL);
 }
@@ -17,6 +19,9 @@ int main(int argc, char *argv[])
    pthread_t threads[NUM_THREADS];
    int rc;
    long t;
+   // Para obtener el PID del proceso main
+   // este coincide con el arrogado por el comando ps
+   printf("PID:%d\n", getpid());
    for (t = 0; t < NUM_THREADS; t++)
    {
       printf("In main: creating thread %ld\n", t);
@@ -27,16 +32,12 @@ int main(int argc, char *argv[])
          exit(-1);
       }
    }
-   /* Espera a que todos los hilos terminen */
+   // Para que el hilo main no termine sino terminana sus hijos
    for (t = 0; t < NUM_THREADS; t++)
    {
       pthread_join(threads[t], NULL);
    }
-
-   /* Muestra la información de los hilos */
-   char command[50];
-   sprintf(command, "ps -T -p %d", getpid());
-   system(command);
+   printf("Exit ...");
 
    /* Last thing that main() should do */
    pthread_exit(NULL);

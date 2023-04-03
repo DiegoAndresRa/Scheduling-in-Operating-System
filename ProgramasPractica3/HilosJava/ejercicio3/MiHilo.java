@@ -30,7 +30,6 @@ public class MiHilo implements Runnable {
     }
 
     public void run(){
-        int sum;
         System.out.println(hilo.getName()+ " iniciando.");
         //synchronize llama a sumArray()
         synchronized (sumarray) {
